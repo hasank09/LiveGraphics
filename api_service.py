@@ -8,7 +8,7 @@ def get_stream_data():
     Fetch team performance data from the API.
 
     Returns:
-        list: List of team data items
+        list: List of Rider data
 
     Raises:
         Exception: If API request fails

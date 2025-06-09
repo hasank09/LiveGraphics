@@ -17,3 +17,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+// to refresh the page
+setInterval(() => {
+    window.location.reload();
+}, 5000);  // Refresh every 5 seconds
