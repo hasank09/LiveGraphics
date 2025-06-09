@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% set active_page = 'main' %}
+{% set active_tab = 'overview' %}
+
+{% block title %}Overview Dashboard{% endblock %}
+
+{% block content %}
+    <!-- Team Performance Table -->
+    <div class="data-card bg-white mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <span>NEP Streaming Data</span>
+
+        </div>
+
+        {% include 'tables/table1.html' %}
+    </div>
+
+{% endblock %}

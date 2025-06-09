@@ -1,0 +1,52 @@
+<header class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <!-- Brand/logo -->
+        <a class="navbar-brand" href="{{ url_for('index') }}">
+            <i class="bi bi-bar-chart-line-fill me-2"></i>
+            Live Data Dashboard
+        </a>
+
+        <!-- Toggler for mobile -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navigation items -->
+        <div class="collapse navbar-collapse" id="navbarMain">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link {% if active_page == 'main' %}active{% endif %}"
+                       href="{{ url_for('index') }}">Overview</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if active_page == 'performance' %}active{% endif %}"
+                       href="{{ url_for('performance') }}">Performance</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if active_page == 'analytics' %}active{% endif %}"
+                       href="{{ url_for('analytics') }}">Analytics</a>
+                </li>
+            </ul>
+
+            <!-- Live status indicator -->
+            <div class="d-flex align-items-center">
+                <span class="status-indicator bg-success live-pulse"></span>
+                <span class="text-light fw-medium me-3">LIVE</span>
+
+                <!-- User dropdown -->
+                <div class="dropdown">
+                    <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-person-circle me-1"></i>
+                        <span>Admin</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
