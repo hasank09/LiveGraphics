@@ -1,0 +1,166 @@
+<div class="dark-mode-wrapper">
+    <div class="table-responsive">
+        <table class="table dark-rider-table">
+            <thead>
+                <tr class="dark-header">
+                    <th>
+                        <div class="dark-th">
+                            <i class="bi bi-clock"></i>
+                            <span>Time Stamp</span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="dark-th">
+                            <i class="bi bi-person"></i>
+                            <span>Rider</span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="dark-th">
+                            <i class="bi bi-activity"></i>
+                            <span>Status</span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="dark-th">
+                            <i class="bi bi-geo-alt"></i>
+                            <span>Latitude</span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="dark-th">
+                            <i class="bi bi-geo"></i>
+                            <span>Longitude</span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="dark-th">
+                            <i class="bi bi-compass"></i>
+                            <span>Course</span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="dark-th">
+                            <i class="bi bi-speedometer2"></i>
+                            <span>Speed</span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="dark-th">
+                            <i class="bi bi-hourglass-split"></i>
+                            <span>Delay</span>
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in stream_data %}
+                <tr class="dark-row">
+                    <td>
+                        <div class="dark-timestamp">{{ item.time_stamp }}</div>
+                    </td>
+                    <td>
+                        <div class="dark-rider">
+                            <div class="dark-avatar">
+                                {{ item.id[0:1] | upper }}
+                            </div>
+                            <span class="dark-name">{{ item.id }}</span>
+                        </div>
+                    </td>
+                    <td>
+                        {% if item.delay < 5 %}
+                            <div class="dark-chip dark-active">
+                                <span class="dark-status-indicator"></span>
+                                <span>Active</span>
+                            </div>
+                        {% else %}
+                            <div class="dark-chip dark-inactive">
+                                <span class="dark-status-indicator"></span>
+                                <span>Inactive</span>
+                            </div>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="dark-coords">{{ item.latitude }}</div>
+                    </td>
+                    <td>
+                        <div class="dark-coords">{{ item.longitude }}</div>
+                    </td>
+                    <td>
+                        <div class="dark-course">
+                            <svg class="course-arrow" viewBox="0 0 24 24" width="24" height="24" style="transform: rotate({{ item.course }}deg)">
+                                <path d="M12,2L4.5,20.29L5.21,21L12,18L18.79,21L19.5,20.29L12,2Z" fill="currentColor"/>
+                            </svg>
+                            <span>{{ item.course }}°</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="dark-speed">
+                            {% set speed_percent = (item.speed / 100) * 100 %}
+                            {% if speed_percent > 100 %}{% set speed_percent = 100 %}{% endif %}
+                            <div class="speed-gauge">
+                                <div class="speed-fill" style="width: {{ speed_percent }}%"></div>
+                            </div>
+                            <span>{{ item.speed }} <small>km/h</small></span>
+                        </div>
+                    </td>
+                    <td>
+                        {% if item.delay > 5 %}
+                            <div class="dark-delay dark-delay-high">
+                                <i class="bi bi-exclamation-triangle"></i>
+                                <span>{{ item.delay }} sec</span>
+                            </div>
+                        {% else %}
+                            <div class="dark-delay dark-delay-normal">
+                                <i class="bi bi-check-circle"></i>
+                                <span>{{ item.delay }} sec</span>
+                            </div>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Dark Mode Table Controls -->
+    <div class="dark-controls">
+        <div class="dark-info">
+            <div class="dark-stats">
+                <div class="dark-stat">
+                    <div class="dark-stat-value">{{ stream_data|length }}</div>
+                    <div class="dark-stat-label">Total Riders</div>
+                </div>
+                <div class="dark-divider"></div>
+                <div class="dark-stat">
+                    <div class="dark-stat-value dark-active-text">{{ stream_data|selectattr('delay', 'lt', 5)|list|length }}</div>
+                    <div class="dark-stat-label">Active</div>
+                </div>
+                <div class="dark-divider"></div>
+                <div class="dark-stat">
+                    <div class="dark-stat-value dark-inactive-text">{{ stream_data|selectattr('delay', 'ge', 5)|list|length }}</div>
+                    <div class="dark-stat-label">Inactive</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dark-actions">
+            <div class="dark-search">
+                <i class="bi bi-search"></i>
+                <input type="text" placeholder="Search riders...">
+            </div>
+            <div class="dark-buttons">
+                <button class="dark-btn dark-btn-icon">
+                    <i class="bi bi-sliders"></i>
+                </button>
+                <button class="dark-btn dark-btn-icon dark-btn-primary">
+                    <i class="bi bi-arrow-repeat"></i>
+                </button>
+                <button class="dark-btn">
+                    <i class="bi bi-download"></i>
+                    <span>Export</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
