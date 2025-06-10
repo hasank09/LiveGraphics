@@ -22,9 +22,9 @@ def get_stream_data():
         data = response.json()
         selected_data = random.choices(data, k=10)
 
-        print('Total Data Size:', len(data))
-        print('Selected Data Size:', len(selected_data))
-        pprint.pprint(selected_data)
+        # print('Total Data Size:', len(data))
+        # print('Selected Data Size:', len(selected_data))
+        # pprint.pprint(selected_data)
         return selected_data
     except Exception as e:
         raise Exception(f"Error fetching team data: {str(e)}")
