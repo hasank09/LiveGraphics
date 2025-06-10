@@ -1,5 +1,5 @@
 from flask import Flask, render_template, jsonify, flash,request
-from api_service import get_stream_data,get_stream_data_dummy
+from api_service import get_stream_data
 
 
 app = Flask(__name__)
@@ -30,26 +30,18 @@ def view_table():
 
     return render_template(
         'table_view.html',
-        stream_data=get_stream_data_dummy(),
+        stream_data=get_stream_data(),
         table_template=template_path,
         format_id=format_id,
         dark_mode=dark_mode
     )
-
-
-@app.route('/api/rider-data')
-def rider_data_api():
-    """API endpoint to get rider data for AJAX refreshing."""
-    # In a real app, you would fetch the latest data here
-    return {'data': get_stream_data()}
-
 
 @app.route('/table')
 def table():
     """Main dashboard page."""
     try:
         # stream_data = get_stream_data()
-        stream_data = get_stream_data_dummy()
+        stream_data = get_stream_data()
         return render_template('dashboards/main.html',
                                stream_data=stream_data,
                                )
