@@ -1,5 +1,6 @@
 import requests
 import random
+import json
 import pprint
 
 
@@ -28,3 +29,21 @@ def get_stream_data():
         return selected_data
     except Exception as e:
         raise Exception(f"Error fetching team data: {str(e)}")
+
+def get_stream_data_dummy():
+    try:
+        # For demo purposes, use sample data instead of actual API call
+        data = open('api_data_generation/data.json').read()
+        data = json.loads(data)
+        selected_data = random.choices(data, k=10)
+
+        print('Total Data Size:', len(data))
+        print('Selected Data Size:', len(selected_data))
+        pprint.pprint(selected_data)
+        return selected_data
+    except Exception as e:
+        raise Exception(f"Error fetching team data: {str(e)}")
+
+
+if __name__ == '__main__':
+    get_stream_data_dummy()

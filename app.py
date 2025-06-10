@@ -1,5 +1,5 @@
 from flask import Flask, render_template, jsonify, flash
-from api_service import get_stream_data
+from api_service import get_stream_data,get_stream_data_dummy
 
 
 app = Flask(__name__)
@@ -9,8 +9,8 @@ app = Flask(__name__)
 def index():
     """Main dashboard page."""
     try:
-        stream_data = get_stream_data()
-
+        # stream_data = get_stream_data()
+        stream_data = get_stream_data_dummy()
         return render_template('dashboards/main.html',
                                stream_data=stream_data,
                                )

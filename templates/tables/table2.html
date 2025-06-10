@@ -1,0 +1,104 @@
+<div class="table-responsive">
+    <table class="table rider-table">
+        <thead>
+            <tr class="rider-header">
+                <th>Time Stamp</th>
+                <th>Rider</th>
+                <th>Status</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>Course</th>
+                <th>Speed</th>
+                <th>Delay(threshold=5sec)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in stream_data %}
+            <tr class="rider-row {% if item.delay > 5 %}rider-row-delayed{% endif %}">
+                <td class="rider-timestamp">
+                    <i class="bi bi-clock me-2"></i>
+                    {{ item.time_stamp }}
+                </td>
+                <td>
+                    <div class="rider-info">
+                        <div class="rider-avatar">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                        <span class="rider-id">{{ item.id }}</span>
+                    </div>
+                </td>
+                <td>
+                    {% if item.delay < 5 %}
+                        <div class="rider-status-active">
+                            <span class="rider-status-dot"></span>
+                            <span>Online</span>
+                        </div>
+                    {% else %}
+                        <div class="rider-status-inactive">
+                            <span class="rider-status-dot"></span>
+                            <span>Offline</span>
+                        </div>
+                    {% endif %}
+                </td>
+                <td class="rider-coordinate">
+                    <div class="coordinate-label">LAT</div>
+                    <div class="coordinate-value">{{ item.latitude }}</div>
+                </td>
+                <td class="rider-coordinate">
+                    <div class="coordinate-label">LONG</div>
+                    <div class="coordinate-value">{{ item.longitude }}</div>
+                </td>
+                <td>
+                    <div class="course-indicator">
+                        <i class="bi bi-compass" style="transform: rotate({{ item.course }}deg)"></i>
+                        <span>{{ item.course }}°</span>
+                    </div>
+                </td>
+                <td>
+                    <div class="speed-meter">
+                        <div class="speed-value">{{ item.speed }}</div>
+                        <div class="speed-unit">km/h</div>
+                    </div>
+                </td>
+                <td>
+                    <div class="delay-indicator {% if item.delay > 5 %}delay-warning{% else %}delay-normal{% endif %}">
+                        {% if item.delay > 5 %}
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+                        {% else %}
+                            <i class="bi bi-check-circle-fill"></i>
+                        {% endif %}
+                        <span>{{ item.delay }} sec</span>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Custom Footer -->
+<div class="rider-table-footer">
+    <div class="rider-stats">
+        <div class="rider-stat-item">
+            <span class="rider-stat-label">Active Riders:</span>
+            <span class="rider-stat-value rider-stat-active">{{ stream_data|selectattr('delay', 'lt', 5)|list|length }}</span>
+        </div>
+        <div class="rider-stat-item">
+            <span class="rider-stat-label">Inactive Riders:</span>
+            <span class="rider-stat-value rider-stat-inactive">{{ stream_data|selectattr('delay', 'ge', 5)|list|length }}</span>
+        </div>
+        <div class="rider-stat-item">
+            <span class="rider-stat-label">Total Riders:</span>
+            <span class="rider-stat-value">{{ stream_data|length }}</span>
+        </div>
+    </div>
+    <div class="rider-refresh">
+        <span class="rider-refresh-label">Auto-refresh:</span>
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="refreshToggle" checked>
+        </div>
+        <button class="rider-refresh-btn">
+            <i class="bi bi-arrow-clockwise"></i> Refresh Now
+        </button>
+    </div>
+</div>
