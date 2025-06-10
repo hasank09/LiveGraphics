@@ -1,0 +1,81 @@
+<!-- templates/table_view.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rider Tracking Data</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    {% if dark_mode %}
+    <style>
+        body {
+            background-color: #121417;
+            color: #e1e5eb;
+        }
+    </style>
+    {% endif %}
+    <!-- Include CSS for the specific table format -->
+    {% if format_id == '1' %}
+    <!-- Default table styles -->
+    {% elif format_id == '2' %}
+    <!-- Blue theme styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/table2.css') }}">
+    {% elif format_id == '3' %}
+    <!-- Dark theme styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/table3.css') }}">
+    {% endif %}
+</head>
+<body>
+    <div class="container-fluid py-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Rider Tracking Data</h2>
+            <div class="d-flex gap-2">
+                <a href="/" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i> Change Format
+                </a>
+                <button id="refreshBtn" class="btn btn-primary">
+                    <i class="bi bi-arrow-clockwise"></i> Refresh
+                </button>
+            </div>
+        </div>
+
+        <!-- Display selected table -->
+        <div id="tableContainer">
+            {% include table_template %}
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const refreshBtn = document.getElementById('refreshBtn');
+
+            if (refreshBtn) {
+                refreshBtn.addEventListener('click', function() {
+                    // Simple refresh using current URL
+                    window.location.href = window.location.href;
+                });
+            }
+
+// Optional: Auto-refresh toggle
+            let autoRefresh = true;
+            let refreshInterval;
+
+            toggleAutoRefresh(); // Start auto-refresh immediately
+
+            function toggleAutoRefresh() {
+                {#autoRefresh = !autoRefresh;#}
+
+                if (autoRefresh) {
+                    refreshInterval = setInterval(() => {
+                        window.location.href = window.location.href;
+                    }, 5000); // Refresh every 10 seconds
+                } else {
+                    clearInterval(refreshInterval);
+                }
+            }
+
+        });
+    </script>
+</body>
+</html>

@@ -1,49 +1,49 @@
-<div class="table-responsive">
-    <table class="table data-table">
-        <thead>
-            <tr>
-                <th>Time Stamp</th>
-                <th>Rider</th>
-                <th>Status</th>
-                <th>Latitude</th>
-                <th>Longitude</th>
-                <th>Course</th>
-                <th>Speed</th>
-                <th>Delay(threshold=5sec)</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in stream_data %}
-            <tr>
-                <td class="fw-semibold">{{ item.time_stamp }}</td>
-                <td>
-                    <div class="team-cell">
-                        <div class="team-logo">
-                            <i class="bi bi-people-fill"></i>
+    <div class="table-responsive">
+        <table class="table data-table">
+            <thead>
+                <tr>
+                    <th>Time Stamp</th>
+                    <th>Rider</th>
+                    <th>Status</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
+                    <th>Course</th>
+                    <th>Speed</th>
+                    <th>Delay(threshold=5sec)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in stream_data %}
+                <tr>
+                    <td class="fw-semibold">{{ item.time_stamp }}</td>
+                    <td>
+                        <div class="team-cell">
+                            <div class="team-logo">
+                                <i class="bi bi-people-fill"></i>
+                            </div>
+                            <span>{{ item.id }}</span>
                         </div>
-                        <span>{{ item.id }}</span>
-                    </div>
-                </td>
-                <td>
-                    {% if item.delay < 5 %}
-                        <span class="badge bg-success">Active</span>
-                    {% else %}
-                        <span class="badge bg-secondary">Inactive</span>
-                    {% endif %}
-                </td>
-                <td>{{ item.latitude }}</td>
-                <td class="fw-semibold">{{ item.longitude }}</td>
-                <td>{{ item.course }}</td>
-                <td>{{ item.speed }}</td>
-                <td class="{% if item.delay > 5 %}trend-up{% else %}trend-down{% endif %}">
-                    {% if item.delay > 5 %}
-                        <i class="bi bi-graph-up-arrow"></i> +{{ item.delay }} secs
-                    {% else %}
-                        <i class="bi bi-graph-down-arrow"></i> {{ item.delay }} secs
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+                    </td>
+                    <td>
+                        {% if item.delay < 5 %}
+                            <span class="badge bg-success">Active</span>
+                        {% else %}
+                            <span class="badge bg-secondary">Inactive</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ item.latitude }}</td>
+                    <td class="fw-semibold">{{ item.longitude }}</td>
+                    <td>{{ item.course }}</td>
+                    <td>{{ item.speed }}</td>
+                    <td class="{% if item.delay > 5 %}trend-up{% else %}trend-down{% endif %}">
+                        {% if item.delay > 5 %}
+                            <i class="bi bi-graph-up-arrow"></i> +{{ item.delay }} secs
+                        {% else %}
+                            <i class="bi bi-graph-down-arrow"></i> {{ item.delay }} secs
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>

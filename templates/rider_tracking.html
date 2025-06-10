@@ -1,0 +1,206 @@
+<!-- templates/rider_tracking.html -->
+{% extends "base.html" %}
+
+{% block title %}Rider Tracking Dashboard{% endblock %}
+
+{% block extra_head %}
+{% if dark_mode %}
+<style>
+    body {
+        background-color: #121417;
+        color: #e1e5eb;
+    }
+</style>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- Header with format switcher -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div class="d-flex align-items-center gap-3">
+            <!-- Format Switcher Dropdown -->
+            <div class="dropdown">
+                <button class="btn {% if dark_mode %}btn-dark{% else %}btn-light{% endif %} dropdown-toggle" type="button" id="formatDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-grid-3x3-gap-fill me-2"></i> Table Format
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="formatDropdown">
+                    <li><a class="dropdown-item {% if format_id == '1' %}active{% endif %}" href="{{ url_for('rider_tracking', format=1) }}">Standard Format</a></li>
+                    <li><a class="dropdown-item {% if format_id == '2' %}active{% endif %}" href="{{ url_for('rider_tracking', format=2) }}">Blue Theme</a></li>
+                    <li><a class="dropdown-item {% if format_id == '3' %}active{% endif %}" href="{{ url_for('rider_tracking', format=3) }}">Dark Theme</a></li>
+                </ul>
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+    <!-- Data Table Card -->
+    <div class="{% if dark_mode %}bg-transparent{% else %}data-card{% endif %}">
+        {% if not dark_mode %}
+        {% endif %}
+
+        <div class="{% if not dark_mode %}card-body p-0{% endif %}" id="tableContainer">
+            <!-- Include the selected table based on format_id -->
+            {% include table_template %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get elements
+        const autoRefreshToggle = document.getElementById('autoRefreshToggle');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const tableContainer = document.getElementById('tableContainer');
+
+        let refreshInterval;
+
+        // Initialize with saved preferences
+        const savedInterval = localStorage.getItem('refreshInterval') || '0';
+        const shouldAutoRefresh = savedInterval !== '0';
+
+        // Set toggle state based on saved preference
+        if (autoRefreshToggle) {
+            autoRefreshToggle.checked = shouldAutoRefresh;
+        }
+
+        function startAutoRefresh(seconds) {
+            if (refreshInterval) {
+                clearInterval(refreshInterval);
+            }
+
+            if (seconds > 0) {
+                refreshInterval = setInterval(refreshData, seconds * 1000);
+                console.log(`Auto-refresh enabled: every ${seconds} seconds`);
+            }
+        }
+
+        function stopAutoRefresh() {
+            if (refreshInterval) {
+                clearInterval(refreshInterval);
+                console.log('Auto-refresh disabled');
+            }
+        }
+
+        function refreshData() {
+            console.log('Refreshing data...');
+
+            // Add loading indicator
+            const loadingOverlay = document.createElement('div');
+            loadingOverlay.className = 'loading-overlay';
+            loadingOverlay.innerHTML = '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>';
+            tableContainer.appendChild(loadingOverlay);
+
+            // Fetch updated data
+            fetch('/api/rider-data')
+                .then(response => response.json())
+                .then(data => {
+                    // For demonstration purposes, we're just reloading the table
+                    // In a real application, you would update the table content without a full reload
+
+                    // Simulate network delay
+                    setTimeout(() => {
+                        // Remove loading overlay
+                        loadingOverlay.remove();
+
+                        // Flash effect to indicate refresh
+                        tableContainer.classList.add('flash-update');
+                        setTimeout(() => {
+                            tableContainer.classList.remove('flash-update');
+                        }, 500);
+
+                        // In a real application, update the table content here
+                        console.log('Data refreshed');
+                    }, 800);
+                })
+                .catch(error => {
+                    console.error('Error refreshing data:', error);
+                    loadingOverlay.remove();
+                });
+        }
+
+        // Initialize auto-refresh based on saved preference
+        if (shouldAutoRefresh) {
+            startAutoRefresh(parseInt(savedInterval));
+        }
+
+        // Toggle auto-refresh
+        if (autoRefreshToggle) {
+            autoRefreshToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    const interval = localStorage.getItem('refreshInterval') || '10';
+                    startAutoRefresh(parseInt(interval));
+                } else {
+                    stopAutoRefresh();
+                }
+            });
+        }
+
+        // Manual refresh button
+        if (refreshBtn) {
+            refreshBtn.addEventListener('click', refreshData);
+        }
+
+        // Store current format as the default if none is set
+        if (!localStorage.getItem('preferredFormat')) {
+            localStorage.setItem('preferredFormat', '{{ format_id }}');
+        }
+    });
+</script>
+<style>
+    .loading-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    .dark-mode-wrapper .loading-overlay {
+        background-color: rgba(26, 29, 33, 0.7);
+    }
+
+    @keyframes flash-update {
+        0% { opacity: 1; }
+        50% { opacity: 0.7; }
+        100% { opacity: 1; }
+    }
+
+    .flash-update {
+        animation: flash-update 0.5s ease-out;
+    }
+
+    #tableContainer {
+        position: relative;
+    }
+
+    .text-light-muted {
+        color: #848d9c;
+    }
+
+    .live-pulse {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7); }
+        70% { box-shadow: 0 0 0 10px rgba(40, 167, 69, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0); }
+    }
+</style>
+{% endblock %}

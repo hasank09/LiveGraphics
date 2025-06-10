@@ -1,0 +1,144 @@
+<!-- templates/home.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rider Tracking - Select Format</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .format-option {
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid #e9ecef;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .format-option:hover {
+            border-color: #0d6efd;
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .format-option.active {
+            border-color: #0d6efd;
+            background-color: rgba(13, 110, 253, 0.05);
+        }
+
+        .format-header {
+            padding: 10px 15px;
+            font-weight: 600;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .format-preview {
+            padding: 15px;
+            height: 120px;
+        }
+
+        .table-sample {
+            width: 100%;
+            height: 100%;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+        }
+
+        .table1-preview {
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwIiBmaWxsPSIjZTllY2VmIi8+PGxpbmUgeDE9IjAiIHkxPSIyMCIgeDI9IjIwMCIgeTI9IjIwIiBzdHJva2U9IiNkZWUyZTYiLz48cmVjdCB4PSIwIiB5PSIyNSIgd2lkdGg9IjIwMCIgaGVpZ2h0PSIxNSIgZmlsbD0iI2Y4ZjlmYSIvPjxyZWN0IHg9IjAiIHk9IjQ1IiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1IiBmaWxsPSIjZjhmOWZhIi8+PHJlY3QgeD0iMCIgeT0iNjUiIHdpZHRoPSIyMDAiIGhlaWdodD0iMTUiIGZpbGw9IiNmOGY5ZmEiLz48cmVjdCB4PSIwIiB5PSI4NSIgd2lkdGg9IjIwMCIgaGVpZ2h0PSIxNSIgZmlsbD0iI2Y4ZjlmYSIvPjwvc3ZnPg==');
+        }
+
+        .table2-preview {
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImdyYWQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiMxZTNjNzI7c3RvcC1vcGFjaXR5OjEiIC8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMmE1Mjk4O3N0b3Atb3BhY2l0eToxIiAvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAiIGZpbGw9InVybCgjZ3JhZCkiLz48cmVjdCB4PSIwIiB5PSIyNSIgd2lkdGg9IjIwMCIgaGVpZ2h0PSIxNSIgZmlsbD0iI2YxZjNmNSIvPjxyZWN0IHg9IjAiIHk9IjQ1IiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1IiBmaWxsPSIjZjFmM2Y1Ii8+PHJlY3QgeD0iMCIgeT0iNjUiIHdpZHRoPSIyMDAiIGhlaWdodD0iMTUiIGZpbGw9IiNmMWYzZjUiLz48cmVjdCB4PSIwIiB5PSI4NSIgd2lkdGg9IjIwMCIgaGVpZ2h0PSIxNSIgZmlsbD0iI2YxZjNmNSIvPjwvc3ZnPg==');
+        }
+
+        .table3-preview {
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzFhMWQyMSIvPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAiIGZpbGw9IiMyMjI2MmIiLz48cmVjdCB4PSIwIiB5PSIyNSIgd2lkdGg9IjIwMCIgaGVpZ2h0PSIxNSIgZmlsbD0iIzJjMzAzOCIvPjxyZWN0IHg9IjAiIHk9IjQ1IiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1IiBmaWxsPSIjMmMzMDM4Ii8+PHJlY3QgeD0iMCIgeT0iNjUiIHdpZHRoPSIyMDAiIGhlaWdodD0iMTUiIGZpbGw9IiMyYzMwMzgiLz48cmVjdCB4PSIwIiB5PSI4NSIgd2lkdGg9IjIwMCIgaGVpZ2h0PSIxNSIgZmlsbD0iIzJjMzAzOCIvPjwvc3ZnPg==');
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <div class="text-center mb-4">
+            <h2>Rider Tracking System</h2>
+            <p class="text-muted">Select a table format to view rider data</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <form id="formatForm" action="/view-table" method="get">
+                    <input type="hidden" id="formatInput" name="format" value="1">
+
+                    <div class="row g-3 mb-4">
+                        <!-- Format 1 -->
+                        <div class="col-md-4">
+                            <div class="format-option active" data-format="1">
+                                <div class="format-header">Standard Table</div>
+                                <div class="format-preview">
+                                    <div class="table-sample table1-preview"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Format 2 -->
+                        <div class="col-md-4">
+                            <div class="format-option" data-format="2">
+                                <div class="format-header">Blue Theme</div>
+                                <div class="format-preview">
+                                    <div class="table-sample table2-preview"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Format 3 -->
+                        <div class="col-md-4">
+                            <div class="format-option" data-format="3">
+                                <div class="format-header">Dark Theme</div>
+                                <div class="format-preview">
+                                    <div class="table-sample table3-preview"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary px-4">
+                            View Table
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const formatOptions = document.querySelectorAll('.format-option');
+            const formatInput = document.getElementById('formatInput');
+
+            // Handle format selection
+            formatOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Remove active class from all options
+                    formatOptions.forEach(opt => opt.classList.remove('active'));
+
+                    // Add active class to selected option
+                    this.classList.add('active');
+
+                    // Update hidden input value
+                    formatInput.value = this.dataset.format;
+                });
+            });
+
+            // Enable direct submission when clicking on a format
+            formatOptions.forEach(option => {
+                option.addEventListener('dblclick', function() {
+                    formatInput.value = this.dataset.format;
+                    document.getElementById('formatForm').submit();
+                });
+            });
+        });
+    </script>
+</body>
+</html>
