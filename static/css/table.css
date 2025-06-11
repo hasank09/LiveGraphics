@@ -1,3 +1,23 @@
+.body {
+        background-color: #a3acc2;
+        color: #e1e5eb;
+    }
+
+.mt-5 {
+    margin-top: 5rem;
+}
+
+.container {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+
+
+
 /*Table3-Start*/
 /* Dark Mode Rider Table Styling */
 .dark-mode-wrapper {
@@ -141,6 +161,7 @@
     gap: 5px;
     color: #e1e5eb;
 }
+
 
 .speed-gauge {
     height: 6px;
@@ -697,3 +718,15 @@
 }
 
 /*Custom-Table3-End*/
+
+.dark-altitude {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #e1e5eb;
+}
+
+.dark-altitude small {
+    opacity: 0.7;
+    font-size: 0.75rem;
+}
