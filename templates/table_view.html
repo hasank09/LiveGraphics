@@ -46,36 +46,9 @@
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const refreshBtn = document.getElementById('refreshBtn');
-
-            if (refreshBtn) {
-                refreshBtn.addEventListener('click', function() {
-                    // Simple refresh using current URL
-                    window.location.href = window.location.href;
-                });
-            }
-
-// Optional: Auto-refresh toggle
-            let autoRefresh = true;
-            let refreshInterval;
-
-            toggleAutoRefresh(); // Start auto-refresh immediately
-
-            function toggleAutoRefresh() {
-                {#autoRefresh = !autoRefresh;#}
-
-                if (autoRefresh) {
-                    refreshInterval = setInterval(() => {
-                        window.location.href = window.location.href;
-                    }, 5000); // Refresh every 10 seconds
-                } else {
-                    clearInterval(refreshInterval);
-                }
-            }
-
-        });
-    </script>
+    <script src="{{ url_for('static', filename='js/table_view.js') }}"></script>
+    {% if format_id == '3' %}
+    <script src="{{ url_for('static', filename='js/table3.js') }}"></script>
+    {% endif %}
 </body>
 </html>
