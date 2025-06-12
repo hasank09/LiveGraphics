@@ -9,7 +9,7 @@ def table():
     """Main dashboard page."""
     try:
         # stream_data = get_stream_data()
-        stream_data = get_stream_data_dummy()
+        stream_data = get_stream_data()
         return render_template('index.html',
                                stream_data=stream_data,
                                )
