@@ -32,10 +32,15 @@ function fetchData() {
         });
 }
 
+
 // Function to update the table with new data
 function updateTable(data) {
     const tableBody = document.querySelector('.dark-rider-table tbody');
     if (!tableBody) return;
+
+    // Save transparency state before updating
+    const wrapper = document.querySelector('.dark-mode-wrapper');
+    const isTransparent = wrapper ? wrapper.classList.contains('tv-transparent') : false;
 
     // Clear existing rows
     tableBody.innerHTML = '';
@@ -52,8 +57,14 @@ function updateTable(data) {
         const row = document.createElement('tr');
         row.className = 'dark-row';
 
+        // Apply transparency class to rows if needed
+        if (isTransparent) {
+            row.classList.add('transparent-row');
+        }
+
         // Create and populate table cells
         row.innerHTML = `
+            <!-- Row content unchanged -->
             <td>
                 <div class="dark-timestamp">${item.time_stamp}</div>
             </td>
@@ -139,7 +150,15 @@ function updateTable(data) {
     setTimeout(() => {
         table.classList.remove('flash-update');
     }, 500);
+
+    // Restore transparency state after updating
+    if (isTransparent) {
+        wrapper.classList.add('tv-transparent');
+        // Force style reapplication by triggering reflow
+        void wrapper.offsetWidth;
+    }
 }
+
 
 // Function to start periodic data refresh
 function startDataRefresh() {
@@ -182,5 +201,48 @@ document.addEventListener('DOMContentLoaded', function() {
                     icon.classList.remove('spin-animation');
                 });
         });
+    }
+});
+
+// TV Live
+
+// Modify the transparency toggle function at the end of the file
+document.addEventListener('DOMContentLoaded', function() {
+    // Add transparency toggle button
+    const actionButtons = document.querySelector('.dark-buttons');
+    if (actionButtons) {
+        const transparencyToggle = document.createElement('button');
+        transparencyToggle.className = 'dark-btn dark-btn-icon';
+        transparencyToggle.innerHTML = '<i class="bi bi-layers"></i>';
+        transparencyToggle.title = 'Toggle Transparency';
+
+        // Function to toggle transparency
+        function toggleTransparency() {
+            const wrapper = document.querySelector('.dark-mode-wrapper');
+            wrapper.classList.toggle('tv-transparent');
+
+            // Force style refresh by triggering reflow
+            void wrapper.offsetWidth;
+
+            // Swap icon to indicate current state
+            const icon = transparencyToggle.querySelector('i');
+            if (icon.classList.contains('bi-layers')) {
+                icon.classList.replace('bi-layers', 'bi-layers-fill');
+            } else {
+                icon.classList.replace('bi-layers-fill', 'bi-layers');
+            }
+
+            // Store setting in localStorage
+            localStorage.setItem('tableTransparent', wrapper.classList.contains('tv-transparent'));
+        }
+
+        transparencyToggle.addEventListener('click', toggleTransparency);
+        actionButtons.prepend(transparencyToggle);
+
+        // Apply saved setting on load
+        if (localStorage.getItem('tableTransparent') === 'true') {
+            document.querySelector('.dark-mode-wrapper').classList.add('tv-transparent');
+            transparencyToggle.querySelector('i').classList.replace('bi-layers', 'bi-layers-fill');
+        }
     }
 });

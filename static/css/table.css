@@ -15,28 +15,31 @@
     margin-left: auto;
 }
 
-
-
-
 /*Table3-Start*/
-/* Dark Mode Rider Table Styling */
 .dark-mode-wrapper {
-    background-color: #1a1d21;
+    background-color: rgba(26, 29, 33, 0.7); /* Added transparency */
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px); /* Adds a slight blur effect behind */
+    -webkit-backdrop-filter: blur(5px); /* For Safari */
 }
 
+
+/* Make table background transparent */
 .dark-rider-table {
     margin-bottom: 0;
     color: #e1e5eb;
-    background-color: #1a1d21;
+    background-color: transparent;
 }
 
+
+/* Make header slightly transparent but still visible */
 .dark-header {
-    background-color: #22262b;
-    border-bottom: 1px solid #333940;
+    background-color: rgba(34, 38, 43, 0.8);
+    border-bottom: 1px solid rgba(51, 57, 64, 0.5);
 }
+
 
 .dark-th {
     display: flex;
@@ -54,15 +57,18 @@
     opacity: 0.7;
 }
 
+/* Make row backgrounds transparent */
 .dark-row {
-    background-color: #1a1d21;
-    border-bottom: 1px solid #2c3038;
+    background-color: transparent;
+    border-bottom: 1px solid rgba(44, 48, 56, 0.5);
     transition: all 0.2s ease;
 }
 
+
 .dark-row:hover {
-    background-color: #22262b;
+    background-color: rgba(34, 38, 43, 0.5);
 }
+
 
 .dark-row:last-child {
     border-bottom: none;
@@ -80,11 +86,12 @@
     gap: 12px;
 }
 
+/* Make avatar background more vibrant against transparent background */
 .dark-avatar {
     width: 36px;
     height: 36px;
     border-radius: 10px;
-    background: linear-gradient(135deg, #0061ff, #60efff);
+    background: linear-gradient(135deg, rgba(0, 97, 255, 0.9), rgba(96, 239, 255, 0.9));
     color: white;
     display: flex;
     align-items: center;
@@ -92,6 +99,7 @@
     font-weight: 700;
     font-size: 1rem;
 }
+
 
 .dark-name {
     color: #e1e5eb;
@@ -163,13 +171,15 @@
 }
 
 
+/* Make speed gauge background more visible */
 .speed-gauge {
     height: 6px;
-    background-color: #2c3038;
+    background-color: rgba(44, 48, 56, 0.7);
     border-radius: 3px;
     overflow: hidden;
     width: 100%;
 }
+
 
 .speed-fill {
     height: 100%;
@@ -198,14 +208,16 @@
     color: #ff5454;
 }
 
+/* Make controls transparent but still visible */
 .dark-controls {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 16px 24px;
-    background-color: #22262b;
-    border-top: 1px solid #333940;
+    background-color: rgba(34, 38, 43, 0.8);
+    border-top: 1px solid rgba(51, 57, 64, 0.5);
 }
+
 
 .dark-stats {
     display: flex;
@@ -456,15 +468,18 @@
     font-weight: 500;
 }
 
+/* Adjust chip backgrounds for better visibility with transparency */
 .dark-active {
-    background-color: rgba(0, 235, 171, 0.15);
+    background-color: rgba(0, 235, 171, 0.25);
     color: #00ebab;
 }
 
+
 .dark-inactive {
-    background-color: rgba(255, 84, 84, 0.15);
+    background-color: rgba(255, 84, 84, 0.25);
     color: #ff5454;
 }
+
 
 .dark-status-indicator {
     width: 8px;
@@ -540,15 +555,18 @@
     font-size: 0.875rem;
 }
 
+/* Adjust delay indicators for transparency */
 .dark-delay-normal {
-    background-color: rgba(0, 235, 171, 0.15);
+    background-color: rgba(0, 235, 171, 0.25);
     color: #00ebab;
 }
 
+
 .dark-delay-high {
-    background-color: rgba(255, 84, 84, 0.15);
+    background-color: rgba(255, 84, 84, 0.25);
     color: #ff5454;
 }
+
 
 .dark-controls {
     display: flex;
@@ -729,4 +747,15 @@
 .dark-altitude small {
     opacity: 0.7;
     font-size: 0.75rem;
+}
+
+/* Add text shadow to improve readability of text on transparent background */
+/*.dark-timestamp, .dark-name, .dark-coords, .dark-course,*/
+/*.dark-altitude, .dark-speed, .dark-stat-value, .dark-stat-label {*/
+/*    text-shadow: 0px 0px 3px rgba(0, 0, 0, 0.8);*/
+/*}*/
+.dark-timestamp, .dark-name, .dark-coords, .dark-course,
+.dark-altitude, .dark-speed, .dark-stat-value, .dark-stat-label {
+    text-shadow: 0px 0px 3px rgba(0, 0, 0, 0.8);
+    -webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.5);
 }
