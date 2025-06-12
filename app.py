@@ -4,7 +4,6 @@ from api_service import get_stream_data,get_stream_data_dummy
 
 app = Flask(__name__)
 
-
 @app.route('/')
 def table():
     """Main dashboard page."""
@@ -19,7 +18,15 @@ def table():
         return render_template('errors/404.html',
                                stream_data=[])
 
-
+@app.route('/get_data')
+def get_data():
+    """API endpoint to get data via AJAX."""
+    try:
+        # stream_data = get_stream_data()
+        stream_data = get_stream_data_dummy()
+        return jsonify(stream_data)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 
