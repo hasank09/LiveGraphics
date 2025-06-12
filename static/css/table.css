@@ -1,6 +1,10 @@
-.body {
-        background-color: #a3acc2;
-        color: #e1e5eb;
+body {
+        /*background-color: #a3acc2;*/
+        /*color: #e1e5eb;*/
+
+    background: linear-gradient(to right, #400000, #970817, #c2a3a8);
+    color: #ffffff;
+
     }
 
 .mt-5 {

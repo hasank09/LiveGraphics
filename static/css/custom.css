@@ -155,5 +155,10 @@
 .tv-transparent .dark-speed,
 .tv-transparent .dark-stat-value,
 .tv-transparent .dark-stat-label {
-    text-shadow: 0px 0px 3px rgba(0, 0, 0, 0.5);
+    /*text-shadow: 0px 0px 3px rgba(0, 0, 0, 0.5);*/
+    color: #ffffff; /* Brighter color for transparent mode */
+    font-size: 1rem; /* Larger font size for transparent mode */
+    text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.7); /* Stronger shadow */
+    font-weight: 600; /* Bolder font */
+
 }
